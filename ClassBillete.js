@@ -1,6 +1,6 @@
 class Billete{
     constructor(valor, cantidad){
         this.valor=valor;
-        this.cantidad=canidad;
+        this.cantidad=cantidad;
     }
 }

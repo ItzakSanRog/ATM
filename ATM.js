@@ -1,27 +1,46 @@
-var cantidadInput = document.getElementById("inputCantidad");
-var boton = document.getElementById("botonCalcular")
+var inputCantidad = document.getElementById("inputCantidad");
+var botonCalcular = document.getElementById("botonCalcular");
+var resultado = document.getElementById("resultado");
 
+botonCalcular.addEventListener("click", calcular);
 
-boton.addEventListener("click",calcular);
-
-
-var billetesDisponibles = [];
+var cantidadBilletes;
+var billetesCaja = [];
 var billetesAEntregar = [];
 
-
-billetesDisponibles.push(new Billete(500,5));
-billetesDisponibles.push(new Billete(200,3));
-billetesDisponibles.push(new Billete(100,4));
-billetesDisponibles.push(new Billete(50,5));
-billetesDisponibles.push(new Billete(20,2));
-billetesDisponibles.push(new Billete(10,4));
+billetesCaja.push(new Billete(500, 8));
+billetesCaja.push(new Billete(200, 3));
+billetesCaja.push(new Billete(100, 2));
+billetesCaja.push(new Billete(50, 2));
+billetesCaja.push(new Billete(10, 5));
 
 
-function calcular(){
-    for(var i in billetesDisponibles){
-        if(cantidadInput.value =! 0){
-            billetes
+function calcular() {
+    var montoSolicitado = parseInt(inputCantidad.value);
+    for (var i in billetesCaja) {
+        if (inputCantidad.value > 0) {
+            cantidadBilletes = parseInt(montoSolicitado / billetesCaja[i].valor);
+            if(cantidadBilletes>billetesCaja[i].cantidad){
+                cantidadBilletes = billetesCaja[i].cantidad;
+            }
+            montoSolicitado= montoSolicitado-(cantidadBilletes*billetesCaja[i].valor);
+            billetesAEntregar.push(new Billete(billetesCaja[i].valor,cantidadBilletes));
         }
-        cantidadInput.value
+    }
+    if(montoSolicitado==0){
+        mostrarBilletes();
+    }else{
+        resultado.innerHTML = "No puedo entregarte esa cantidad";
+    }
+}
+
+function mostrarBilletes(){
+    for(var i in billetesAEntregar){
+        if (billetesAEntregar[i].cantidad==1){
+            resultado.innerHTML = resultado.innerHTML+billetesAEntregar[i].cantidad+" billete de $"+billetesAEntregar[i].valor+"<br>";
+        }
+        if (billetesAEntregar[i].cantidad>1){
+            resultado.innerHTML = resultado.innerHTML+billetesAEntregar[i].cantidad+" billetes de $"+billetesAEntregar[i].valor+"<br>";
+        }
     }
 }
